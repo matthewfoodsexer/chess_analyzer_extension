@@ -4,8 +4,6 @@ async function run() {
 
   await chrome.storage.local.remove('autoAnalyze')
 
-  await waitForElement('button.button, a.button')
-
   const buttons = document.querySelectorAll('button.button, a.button')
   for (const b of buttons) {
     if (b.textContent?.toLowerCase().includes('computer analysis')) {
@@ -13,27 +11,6 @@ async function run() {
       return
     }
   }
-}
-
-function waitForElement<T extends Element>(selector: string, timeout = 10000): Promise<T | null> {
-  return new Promise((resolve) => {
-    const el = document.querySelector<T>(selector)
-    if (el) return resolve(el)
-
-    const observer = new MutationObserver(() => {
-      const el = document.querySelector<T>(selector)
-      if (el) {
-        observer.disconnect()
-        resolve(el)
-      }
-    })
-
-    observer.observe(document.body, { childList: true, subtree: true })
-    setTimeout(() => {
-      observer.disconnect()
-      resolve(null)
-    }, timeout)
-  })
 }
 
 run()
