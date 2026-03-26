@@ -41,14 +41,21 @@ async function run() {
 function uciToPgn(uciMoves: string[], headers: Record<string, string>): string {
   const chess = new Chess()
 
-  for (const uci of uciMoves) {
+  for (let i = 0; i < uciMoves.length; i++) {
+    const uci = uciMoves[i]
     const from = uci.slice(0, 2)
     const to = uci.slice(2, 4)
     const promotion = uci.length > 4 ? uci[4] : undefined
     try {
       chess.move({ from, to, promotion })
     } catch {
-      break
+      let fallback = ''
+      for (const [key, value] of Object.entries(headers)) {
+        fallback += `[${key} "${value}"]\n`
+      }
+      if (Object.keys(headers).length > 0) fallback += '\n'
+      fallback += uciMoves.join(' ')
+      return fallback.trim()
     }
   }
 

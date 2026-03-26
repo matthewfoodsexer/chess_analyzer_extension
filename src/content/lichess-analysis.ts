@@ -1,15 +1,11 @@
-// After game is imported, auto-click "REQUEST A COMPUTER ANALYSIS" button
 async function run() {
   const result = await chrome.storage.local.get('autoAnalyze')
   if (!result.autoAnalyze) return
 
   await chrome.storage.local.remove('autoAnalyze')
 
-  // Wait for the analysis request button to appear
-  const btn = await waitForElement<HTMLButtonElement>('button.button.text')
-  if (!btn) return
+  await waitForElement('button.button, a.button')
 
-  // Find the button with "analysis" text
   const buttons = document.querySelectorAll('button.button, a.button')
   for (const b of buttons) {
     if (b.textContent?.toLowerCase().includes('computer analysis')) {

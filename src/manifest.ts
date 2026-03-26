@@ -3,8 +3,8 @@ import { ManifestV3Export } from '@crxjs/vite-plugin'
 const manifest: ManifestV3Export = {
   manifest_version: 3,
   name: 'Chess Analyzer',
-  version: '1.0.0',
-  description: 'Analyze your chess.com games on Lichess',
+  version: '2.0.0',
+  description: 'Analyze chess.com games on Lichess with one click',
   permissions: ['storage', 'activeTab', 'tabs'],
   host_permissions: ['https://www.chess.com/*', 'https://lichess.org/*'],
   background: {

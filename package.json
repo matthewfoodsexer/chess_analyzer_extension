@@ -1,7 +1,7 @@
 {
   "name": "chess_analyzer",
-  "version": "1.0.0",
-  "description": "Chrome extension to analyze chess.com games on Lichess",
+  "version": "2.0.0",
+  "description": "Analyze chess.com games on Lichess with one click",
   "type": "module",
   "scripts": {
     "dev": "vite",

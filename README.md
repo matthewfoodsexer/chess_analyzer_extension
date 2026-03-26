@@ -1,58 +1,50 @@
 # Chess Analyzer
 
-Chrome extension to analyze chess.com games on Lichess.
+Analyze chess.com games on Lichess with one click.
 
-## What it does
+## How it works
 
-Click the extension icon on any chess.com game page to automatically:
-1. Extract the PGN from the game
-2. Open Lichess paste page
-3. Auto-fill the PGN
-4. Click "Request a Computer Analysis"
+1. Open any chess.com game page
+2. Click the extension icon
+3. Done — Lichess opens with the game loaded and analysis started
 
 ## Installation
 
-1. Clone the repository
-2. Install dependencies:
-   ```bash
-   npm install
-   ```
-3. Build the extension:
-   ```bash
-   npm run build
-   ```
-4. Load in Chrome:
-   - Go to `chrome://extensions/`
-   - Enable "Developer mode"
-   - Click "Load unpacked"
-   - Select the `dist` folder
+```bash
+npm install
+npm run build
+```
+
+Then in Chrome:
+1. Go to `chrome://extensions/`
+2. Enable "Developer mode"
+3. Click "Load unpacked"
+4. Select the `dist` folder
 
 ## Development
 
 ```bash
-npm run dev    # Watch mode with hot reload
-npm run build  # Production build
-npm run type-check  # TypeScript check
+npm run dev          # Watch mode
+npm run build        # Production build
+npm run type-check   # Type check
 ```
 
-## Project Structure
+## Architecture
 
 ```
 src/
-├── manifest.ts           # Chrome extension manifest
+├── manifest.ts              # Extension manifest
 ├── background/
-│   └── service-worker.ts # Handles icon click, fetches PGN from chess.com
+│   └── service-worker.ts    # Icon click → fetch PGN → open Lichess
 └── content/
-    ├── lichess-paste.ts  # Auto-fills PGN on paste page
-    └── lichess-analysis.ts # Auto-clicks analysis button
+    ├── lichess-paste.ts     # Auto-fill PGN
+    └── lichess-analysis.ts  # Auto-start analysis
 ```
 
-## Tech Stack
+## Tech
 
-- TypeScript
-- Vite
-- @crxjs/vite-plugin
-- chess.js
+- TypeScript + Vite + @crxjs/vite-plugin
+- chess.js for UCI → PGN conversion
 
 ## License
 

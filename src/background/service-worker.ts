@@ -14,11 +14,10 @@ function decodePromoTo(char: string, fromSquare: string): { square: string; piec
   const index = FULL_CHARS.indexOf(char)
   if (index < 64) return null
   const promoIdx = index - 64
-  const file = String.fromCharCode('a'.charCodeAt(0) + (promoIdx % 8))
   const piece = PROMO_PIECES[Math.floor(promoIdx / 8)] ?? 'q'
   const fromRank = parseInt(fromSquare[1])
   const rank = fromRank === 7 ? 8 : 1
-  return { square: `${file}${rank}`, piece }
+  return { square: `${fromSquare[0]}${rank}`, piece }
 }
 
 function decodeMoveList(moveList: string): string[] {
@@ -28,16 +27,17 @@ function decodeMoveList(moveList: string): string[] {
     const from = decodeSquare(moveList[i])
     if (!from) { i++; continue }
 
-    // Normal to-square
-    const to = decodeSquare(moveList[i + 1])
-    if (to) {
+    const toChar = moveList[i + 1]
+    const toIndex = ENCODE_CHARS.indexOf(toChar)
+
+    if (toIndex >= 0 && toIndex <= 63) {
+      const to = decodeSquare(toChar)
       moves.push(from + to)
       i += 2
       continue
     }
 
-    // Promotion: extended char encodes to-square + piece
-    const promo = decodePromoTo(moveList[i + 1], from)
+    const promo = decodePromoTo(toChar, from)
     if (promo) {
       moves.push(from + promo.square + promo.piece)
       i += 2
