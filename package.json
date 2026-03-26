@@ -1,0 +1,20 @@
+{
+  "name": "chess_analyzer",
+  "version": "1.0.0",
+  "description": "Chrome extension to analyze chess.com games on Lichess",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc --noEmit && vite build",
+    "type-check": "tsc --noEmit"
+  },
+  "dependencies": {
+    "chess.js": "^1.4.0"
+  },
+  "devDependencies": {
+    "@crxjs/vite-plugin": "^2.4.0",
+    "@types/chrome": "^0.1.38",
+    "typescript": "^5.9.3",
+    "vite": "^8.0.1"
+  }
+}
