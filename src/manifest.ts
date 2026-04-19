@@ -5,8 +5,8 @@ const manifest: ManifestV3Export = {
   name: 'Chess Analyzer',
   version: '2.0.0',
   description: 'Analyze chess.com games on Lichess with one click',
-  permissions: ['storage', 'activeTab', 'tabs'],
-  host_permissions: ['https://www.chess.com/*', 'https://lichess.org/*'],
+  permissions: ['storage', 'activeTab'],
+  host_permissions: ['https://www.chess.com/*'],
   background: {
     service_worker: 'src/background/service-worker.ts',
     type: 'module',
