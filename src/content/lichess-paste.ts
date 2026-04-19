@@ -1,9 +1,13 @@
 import { Chess } from 'chess.js'
 
 async function run() {
-  const result = await chrome.storage.local.get('pendingPgn')
+  const [result, textarea] = await Promise.all([
+    chrome.storage.local.get('pendingPgn'),
+    waitForElement<HTMLTextAreaElement>('textarea'),
+  ])
+
   const raw = result.pendingPgn
-  if (!raw) return
+  if (!raw || !textarea) return
 
   await chrome.storage.local.remove('pendingPgn')
 
@@ -19,9 +23,6 @@ async function run() {
     pgn = raw as string
   }
 
-  // Wait for textarea to be rendered
-  const textarea = await waitForElement<HTMLTextAreaElement>('textarea')
-  if (!textarea) return
   textarea.value = pgn
 
   await chrome.storage.local.set({ autoAnalyze: true })
@@ -64,7 +65,7 @@ function uciToPgn(uciMoves: string[], headers: Record<string, string>): string {
   return pgn.trim()
 }
 
-function waitForElement<T extends Element>(selector: string, timeout = 10000): Promise<T | null> {
+function waitForElement<T extends Element>(selector: string): Promise<T | null> {
   const el = document.querySelector<T>(selector)
   if (el) return Promise.resolve(el)
 
@@ -76,8 +77,7 @@ function waitForElement<T extends Element>(selector: string, timeout = 10000): P
         resolve(el)
       }
     })
-    observer.observe(document.body, { childList: true, subtree: true })
-    setTimeout(() => { observer.disconnect(); resolve(null) }, timeout)
+    observer.observe(document.documentElement, { childList: true, subtree: true })
   })
 }
 

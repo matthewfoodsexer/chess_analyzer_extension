@@ -15,12 +15,12 @@ const manifest: ManifestV3Export = {
     {
       matches: ['https://lichess.org/paste*'],
       js: ['src/content/lichess-paste.ts'],
-      run_at: 'document_idle',
+      run_at: 'document_end',
     },
     {
       matches: ['https://lichess.org/*'],
       js: ['src/content/lichess-analysis.ts'],
-      run_at: 'document_idle',
+      run_at: 'document_end',
     },
   ],
   action: {
