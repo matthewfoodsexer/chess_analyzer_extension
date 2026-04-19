@@ -19,7 +19,8 @@ async function run() {
     pgn = raw as string
   }
 
-  const textarea = document.querySelector('textarea') as HTMLTextAreaElement | null
+  // Wait for textarea to be rendered
+  const textarea = await waitForElement<HTMLTextAreaElement>('textarea')
   if (!textarea) return
   textarea.value = pgn
 
@@ -61,6 +62,23 @@ function uciToPgn(uciMoves: string[], headers: Record<string, string>): string {
   }, '')
 
   return pgn.trim()
+}
+
+function waitForElement<T extends Element>(selector: string, timeout = 10000): Promise<T | null> {
+  const el = document.querySelector<T>(selector)
+  if (el) return Promise.resolve(el)
+
+  return new Promise((resolve) => {
+    const observer = new MutationObserver(() => {
+      const el = document.querySelector<T>(selector)
+      if (el) {
+        observer.disconnect()
+        resolve(el)
+      }
+    })
+    observer.observe(document.body, { childList: true, subtree: true })
+    setTimeout(() => { observer.disconnect(); resolve(null) }, timeout)
+  })
 }
 
 run()

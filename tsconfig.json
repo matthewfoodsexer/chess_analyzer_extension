@@ -16,6 +16,7 @@
     "noFallthroughCasesInSwitch": true,
     "forceConsistentCasingInFileNames": true,
     "resolveJsonModule": true,
+    "types": ["chrome"],
   },
   "include": ["src"]
 }
