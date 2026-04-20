@@ -25,7 +25,10 @@ async function run() {
 
   textarea.value = pgn
 
-  await chrome.storage.local.set({ autoAnalyze: true })
+  const settings = await chrome.storage.local.get('autoAnalyzeEnabled')
+  if (settings.autoAnalyzeEnabled !== false) {
+    await chrome.storage.local.set({ autoAnalyze: true })
+  }
 
   const form = textarea.closest('form')
   if (form) form.submit()

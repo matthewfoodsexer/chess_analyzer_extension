@@ -82,6 +82,24 @@ async function fetchPgn(gameId: string): Promise<string | null> {
   }
 }
 
+// Context menu for auto-analyze toggle
+chrome.runtime.onInstalled.addListener(() => {
+  chrome.contextMenus.create({
+    id: 'toggle-auto-analyze',
+    title: 'Auto Computer Analysis',
+    type: 'checkbox',
+    checked: true,
+    contexts: ['action'],
+  })
+  chrome.storage.local.set({ autoAnalyzeEnabled: true })
+})
+
+chrome.contextMenus.onClicked.addListener((info) => {
+  if (info.menuItemId === 'toggle-auto-analyze') {
+    chrome.storage.local.set({ autoAnalyzeEnabled: !!info.checked })
+  }
+})
+
 // Icon click → fetch PGN → open lichess paste
 chrome.action.onClicked.addListener(async (tab) => {
   if (!tab.url) return
